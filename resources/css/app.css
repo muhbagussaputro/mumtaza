@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "custom.css";
+
+/* Additional global styles can be added here */
+[x-cloak] {
+    display: none !important;
+}

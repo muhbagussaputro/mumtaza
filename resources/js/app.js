@@ -2,6 +2,7 @@ import './bootstrap';
 import Alpine from 'alpinejs';
 import persist from '@alpinejs/persist';
 import 'flowbite';
+import './sweetalert-helper';
 
 // Initialize Alpine.js
 window.Alpine = Alpine;

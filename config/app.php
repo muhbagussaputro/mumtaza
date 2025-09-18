@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Logo URL
+    |--------------------------------------------------------------------------
+    |
+    | This value is the URL of your application logo. If set, it will be used
+    | instead of the default icon.png file. This allows for dynamic logo
+    | configuration from external sources or CDN.
+    |
+    */
+
+    'logo_url' => env('APP_LOGO_URL', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

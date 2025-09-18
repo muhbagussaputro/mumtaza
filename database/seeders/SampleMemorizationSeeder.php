@@ -37,7 +37,7 @@ class SampleMemorizationSeeder extends Seeder
         $fatihah = Surah::where('number', 1)->first();
         $baqarah = Surah::where('number', 2)->first();
 
-        if (!$fatihah || !$baqarah) {
+        if (! $fatihah || ! $baqarah) {
             // If surahs table is empty, run SurahSeeder first
             $this->call(SurahSeeder::class);
             $fatihah = Surah::where('number', 1)->firstOrFail();

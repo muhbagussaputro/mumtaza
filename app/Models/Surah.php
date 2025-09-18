@@ -19,8 +19,16 @@ class Surah extends Model
         'ayah_count',
     ];
 
-    public function memorizations(): HasMany
+    public function memorizationEntries(): HasMany
     {
-        return $this->hasMany(Memorization::class);
+        return $this->hasMany(MemorizationEntry::class);
+    }
+
+    /**
+     * Get all hafalan for this surah.
+     */
+    public function hafalan(): HasMany
+    {
+        return $this->hasMany(Hafalan::class, 'id_surat');
     }
 }

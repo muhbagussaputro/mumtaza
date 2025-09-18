@@ -14,7 +14,7 @@ class SampleProgramSeeder extends Seeder
     public function run(): void
     {
         $student = User::where('email', 'siswa@example.com')->first();
-        if (!$student) {
+        if (! $student) {
             $this->call(SampleMemorizationSeeder::class);
             $student = User::where('email', 'siswa@example.com')->firstOrFail();
         }
@@ -41,7 +41,7 @@ class SampleProgramSeeder extends Seeder
                     'juz_number' => $juz,
                 ],
                 [
-                    'title' => 'Juz ' . $juz,
+                    'title' => 'Juz '.$juz,
                     'target_date' => Carbon::now()->addWeeks($juz)->toDateString(),
                     'status' => 'planned',
                 ]

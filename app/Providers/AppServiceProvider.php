@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,14 +34,14 @@ class AppServiceProvider extends ServiceProvider
                 'token' => $token,
                 'email' => $notifiable->getEmailForPasswordReset(),
             ], false));
-            
+
             return (new MailMessage)
-                ->subject('Atur Ulang Kata Sandi - ' . config('app.name'))
+                ->subject('Atur Ulang Kata Sandi - '.config('app.name'))
                 ->view('emails.auth.reset-password', [
                     'url' => $url,
                     'token' => $token,
                     'notifiable' => $notifiable,
-                    'count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')
+                    'count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire'),
                 ]);
         });
     }

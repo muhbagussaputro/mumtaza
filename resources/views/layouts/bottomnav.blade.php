@@ -10,29 +10,29 @@
             Dashboard
         </a>
 
-        <!-- Students (Admin/Teacher Only) -->
+        <!-- Admin/Teacher/Student Navigation -->
         @if (in_array(auth()->user()->role, ['admin']))
-            <a href="#"
+            <a href="{{ route('admin.users.index') }}"
                class="flex flex-col items-center justify-center py-2 px-3 text-xs
-                {{ request()->routeIs('students.*') 
+                {{ request()->routeIs('admin.*') 
                     ? 'text-white' 
                     : 'text-gray-300 hover:text-gray-100' }}">
                 <i class="fa-solid fa-users text-xs mb-1"></i>
-                Students
+                Users
             </a>
         @endif
         @if (in_array(auth()->user()->role, ['guru']))
-            <a href="#"
+            <a href="{{ route('guru.data-siswa') }}"
                class="flex flex-col items-center justify-center py-2 px-3 text-xs
-                {{ request()->routeIs('students.*') 
+                {{ request()->routeIs('guru.data-siswa') 
                     ? 'text-white' 
                     : 'text-gray-300 hover:text-gray-100' }}">
                 <i class="fa-solid fa-users text-xs mb-1"></i>
-                Students
+                Siswa
             </a>
         @endif
         @if (in_array(auth()->user()->role, ['siswa']))
-            <a href="#"
+            <a href="{{ route('siswa.hafalan.index') }}"
                class="flex flex-col items-center justify-center py-2 px-3 text-xs
                 {{ request()->routeIs('siswa.hafalan.*') 
                     ? 'text-white' 
@@ -40,13 +40,21 @@
                 <i class="fa-solid fa-book text-xs mb-1"></i>
                 Hafalan
             </a>
-            <a href="#"
+            <a href="{{ route('siswa.laporan.index') }}"
                class="flex flex-col items-center justify-center py-2 px-3 text-xs
                 {{ request()->routeIs('siswa.laporan.*') 
                     ? 'text-white' 
                     : 'text-gray-300 hover:text-gray-100' }}">
-                <i class="fa-solid fa-book text-xs mb-1"></i>
+                <i class="fa-solid fa-chart-line text-xs mb-1"></i>
                 Laporan
+            </a>
+            <a href="{{ route('siswa.progress.index') }}"
+               class="flex flex-col items-center justify-center py-2 px-3 text-xs
+                {{ request()->routeIs('siswa.progress.*') 
+                    ? 'text-white' 
+                    : 'text-gray-300 hover:text-gray-100' }}">
+                <i class="fa-solid fa-chart-bar text-xs mb-1"></i>
+                Progress
             </a>
         @endif
 

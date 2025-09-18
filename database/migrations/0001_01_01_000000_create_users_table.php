@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('tempat')->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->string('alamat')->nullable();
-            $table->number('id_kelas')->nullable();
+            $table->unsignedBigInteger('id_kelas')->nullable();
             $table->string('orang_tua')->nullable();
             $table->string('id_program')->nullable();
 

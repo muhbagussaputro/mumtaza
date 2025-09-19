@@ -42,7 +42,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
 </head>
 
-<body class="font-sans antialiased bg-gray-50 text-gray-900 h-full">
+<body class="font-sans antialiased bg-white text-gray-900 h-full">
     <div class="min-h-screen flex flex-col lg:flex-row">
 
         <!-- Sidebar Desktop -->
@@ -151,17 +151,17 @@
         <div class="flex-1 overflow-auto focus:outline-none">
             @include('layouts.topbar')
 
-            <main class="flex-1 overflow-y-auto focus:outline-none bg-gray-50 pb-16 lg:pb-0">
+            <main class="flex-1 overflow-y-auto focus:outline-none bg-white pb-16 lg:pb-0">
                 <div class="py-6">
                     <div class="px-2 mx-auto max-w-7xl sm:px-4 lg:px-8">
                         @if (session('status'))
-                            <div class="p-4 mb-6 rounded-lg bg-green-100 text-green-800">
+                            <div class="p-4 mb-6 rounded-lg bg-green-50 text-green-800 border border-green-200">
                                 {{ session('status') }}
                             </div>
                         @endif
 
                         @if (session('error'))
-                            <div class="p-4 mb-6 rounded-lg bg-red-100 text-red-800">
+                            <div class="p-4 mb-6 rounded-lg bg-red-50 text-red-800 border border-red-200">
                                 {{ session('error') }}
                             </div>
                         @endif

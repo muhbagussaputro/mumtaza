@@ -24,7 +24,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->index(['role', 'status_aktif']);
             $table->index('class_id');
         });
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->boolean('status_aktif')->default(true);
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->index('tahun_ajaran');
         });
 
@@ -52,7 +52,7 @@ return new class extends Migration
             $table->string('tahun_ajaran');
             $table->boolean('active')->default(true);
             $table->timestamps();
-            
+
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->unique(['student_id', 'class_id', 'tahun_ajaran']);
@@ -72,7 +72,7 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->index('status');
         });
 
@@ -96,7 +96,7 @@ return new class extends Migration
             $table->string('foto_profil')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('id_kelas')->references('id')->on('classes')->onDelete('set null');
             $table->index(['status', 'jenis']);
             $table->index('id_kelas');
@@ -115,7 +115,7 @@ return new class extends Migration
             $table->boolean('status_aktif')->default(true);
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('guru_id')->references('id')->on('users')->onDelete('set null');
             $table->index(['jenis', 'status']);
             $table->index('guru_id');
@@ -132,7 +132,7 @@ return new class extends Migration
             $table->decimal('progress', 5, 2)->default(0); // Alias untuk progress_cached
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade');
             $table->unique(['student_id', 'program_id']);
@@ -148,7 +148,7 @@ return new class extends Migration
             $table->integer('target_pages')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
-            
+
             $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade');
             $table->unique(['program_id', 'juz_number']);
             $table->index('program_id');
@@ -164,7 +164,7 @@ return new class extends Migration
             $table->enum('revelation_place', ['mecca', 'medina']);
             $table->integer('ayah_count');
             $table->timestamps();
-            
+
             $table->index('number');
         });
 
@@ -197,12 +197,12 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade');
             $table->foreign('guru_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('surah_id')->references('id')->on('surahs')->onDelete('cascade');
-            
+
             $table->index(['student_id', 'program_id']);
             $table->index(['guru_id', 'jadwal']);
             $table->index(['jenis_setoran', 'klasifikasi']);
@@ -213,10 +213,10 @@ return new class extends Migration
         Schema::create('memorization_entry_violations', function (Blueprint $table) {
             $table->unsignedBigInteger('entry_id');
             $table->unsignedBigInteger('violation_id');
-            
+
             $table->foreign('entry_id')->references('id')->on('memorization_entries')->onDelete('cascade');
             $table->foreign('violation_id')->references('id')->on('violations')->onDelete('cascade');
-            
+
             $table->primary(['entry_id', 'violation_id']);
         });
 
@@ -238,10 +238,10 @@ return new class extends Migration
             $table->integer('halaman')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('id_program_siswa')->references('id')->on('student_programs')->onDelete('cascade');
             $table->foreign('id_surat')->references('id')->on('surahs')->onDelete('cascade');
-            
+
             $table->index(['id_program_siswa', 'waktu']);
             $table->index(['jenis_hafalan', 'target']);
             $table->index('id_surat');

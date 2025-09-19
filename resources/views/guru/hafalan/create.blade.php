@@ -3,17 +3,17 @@
 @section('content')
 <div class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <div class="bg-gradient-to-r from-teal-500 to-teal-600 text-white">
+    <div class="bg-gradient-to-r from-green-500 to-green-600 text-white">
         <div class="px-4 py-6">
             <div class="flex items-center">
-                <a href="{{ route('guru.siswa.show', $student->id) }}" class="mr-3">
+                <a href="{{ route('guru.siswa.show', $student->id) }}" class="mr-3 hover:bg-green-700 p-2 rounded-full transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </a>
                 <div>
                     <h1 class="text-xl font-bold">Form Setoran</h1>
-                    <p class="text-teal-100 text-sm">{{ $student->name }}</p>
+                    <p class="text-green-100 text-sm">{{ $student->name }}</p>
                 </div>
             </div>
         </div>
@@ -26,29 +26,29 @@
             <input type="hidden" name="student_id" value="{{ $student->id }}">
             
             <!-- Student Info Card -->
-            <div class="bg-white rounded-lg shadow-sm p-4">
+            <div class="bg-white rounded-lg shadow-sm p-4 border border-green-100">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                         @if($student->foto_path)
                             <img src="{{ asset('storage/' . $student->foto_path) }}" alt="{{ $student->name }}" class="w-12 h-12 rounded-full object-cover">
                         @else
-                            <svg class="w-6 h-6 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                             </svg>
                         @endif
                     </div>
                     <div class="ml-3">
-                        <h3 class="font-semibold text-gray-900">{{ $student->name }}</h3>
-                        <p class="text-sm text-gray-500">NIS: {{ $student->nis ?? '-' }}</p>
+                        <h3 class="font-semibold text-green-800">{{ $student->name }}</h3>
+                        <p class="text-sm text-green-600">NIS: {{ $student->nis ?? '-' }}</p>
                     </div>
                 </div>
             </div>
 
             <!-- Program Selection -->
-            <div class="bg-white rounded-lg shadow-sm p-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Program</label>
+            <div class="bg-white rounded-lg shadow-sm p-4 border border-green-100">
+                <label class="block text-sm font-medium text-green-800 mb-2">Program</label>
                 <select name="program_id" id="program_id" required 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:border-transparent">
                     <option value="">Pilih Program</option>
                     @foreach($student->studentPrograms as $studentProgram)
                         <option value="{{ $studentProgram->program_id }}" 

@@ -75,7 +75,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/programs/{program}', [AcademicController::class, 'updateProgram'])->name('programs.update');
     Route::delete('/programs/{program}', [AcademicController::class, 'destroyProgram'])->name('programs.destroy');
     Route::post('/programs/{id}/restore', [AcademicController::class, 'restoreProgram'])->name('programs.restore');
-    
+
     // Program Students Management
     Route::post('/programs/{program}/students', [AcademicController::class, 'addStudentToProgram'])->name('programs.students.store');
     Route::delete('/programs/{program}/students/{student}', [AcademicController::class, 'removeStudentFromProgram'])->name('programs.students.destroy');
@@ -132,6 +132,7 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
 
     // Laporan Management (Guru)
     Route::get('/laporan', [GuruGuruController::class, 'laporanIndex'])->name('laporan.index');
+    Route::get('/laporan/cetak', [GuruGuruController::class, 'laporanCetak'])->name('laporan.cetak');
 
     // Memorization Management
     Route::get('/siswa/{student}/setoran/create', [MemorizationController::class, 'create'])->name('setoran.create');

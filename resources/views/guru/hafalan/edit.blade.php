@@ -3,17 +3,17 @@
 @section('content')
 <div class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <div class="bg-gradient-to-r from-teal-500 to-teal-600 text-white">
+    <div class="bg-gradient-to-r from-green-500 to-green-600 text-white">
         <div class="px-4 py-6">
             <div class="flex items-center">
-                <a href="{{ route('guru.hafalan.index') }}" class="mr-3">
+                <a href="{{ route('guru.hafalan.index') }}" class="mr-3 hover:bg-green-700 p-2 rounded-full transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </a>
                 <div>
                     <h1 class="text-xl font-bold">Edit Setoran</h1>
-                    <p class="text-teal-100 text-sm">{{ $memorization->student->name }}</p>
+                    <p class="text-green-100 text-sm">{{ $memorization->student->name }}</p>
                 </div>
             </div>
         </div>

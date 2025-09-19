@@ -43,7 +43,7 @@
         </div>
     </nav> -->
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl">
         <!-- Header with Gradient -->
         <div class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl shadow-lg mb-8">
             <div class="px-8 py-6">
@@ -90,122 +90,107 @@
         </div>
 
     <!-- Content -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Program Info Card -->
-        <div class="lg:col-span-2">
-            <div class="bg-white rounded-xl shadow-lg border border-gray-200 mb-6 hover:shadow-xl transition-shadow duration-300">
-                <div class="px-6 py-4 border-b border-gray-200 bg-green-50 rounded-t-xl">
-                    <h6 class="text-lg font-semibold text-gray-900 flex items-center">
-                        <i class="fas fa-info-circle mr-2 text-green-500"></i> Informasi Program
-                    </h6>
-                </div>
-                <div class="p-6">
-                    <div class="mb-6">
-                        <h4 class="text-xl font-bold text-green-600">{{ $program->nama }}</h4>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $program->jenis == 'reguler' ? 'bg-green-100 text-green-800' : 'bg-emerald-100 text-emerald-800' }}">
-                            {{ ucfirst($program->jenis) }}
-                        </span>
+    <div class="space-y-8">
+        <!-- Main Grid Layout -->
+        <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+            <!-- Program Info Card -->
+            <div class="xl:col-span-3">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                    <div class="px-6 py-4 border-b border-gray-200 bg-green-50 rounded-t-xl">
+                        <h6 class="text-lg font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-info-circle mr-2 text-green-500"></i> Informasi Program
+                        </h6>
                     </div>
-                    
-                    @if($program->deskripsi)
-                    <div class="mb-6">
-                        <h6 class="font-semibold text-gray-900 mb-2">Deskripsi:</h6>
-                        <p class="text-gray-600 leading-relaxed">{{ $program->deskripsi }}</p>
-                    </div>
-                    @endif
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <h6 class="font-semibold text-gray-900 mb-2">Guru Pembimbing:</h6>
-                            <p class="text-gray-600">{{ $program->guru ? $program->guru->name : 'Belum ditentukan' }}</p>
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <h4 class="text-xl font-bold text-green-600">{{ $program->nama }}</h4>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $program->jenis == 'reguler' ? 'bg-green-100 text-green-800' : 'bg-emerald-100 text-emerald-800' }}">
+                                {{ ucfirst($program->jenis) }}
+                            </span>
                         </div>
                         
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <h6 class="font-semibold text-gray-900 mb-2">Target Juz:</h6>
-                            <p class="text-gray-600">{{ $program->juzTargets->count() }} juz</p>
+                        @if($program->deskripsi)
+                        <div class="mb-6">
+                            <h6 class="font-semibold text-gray-900 mb-2">Deskripsi:</h6>
+                            <p class="text-gray-600 leading-relaxed">{{ $program->deskripsi }}</p>
                         </div>
+                        @endif
                         
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <h6 class="font-semibold text-gray-900 mb-2">Dibuat:</h6>
-                            <p class="text-gray-600">{{ $program->created_at->format('d F Y H:i') }}</p>
-                        </div>
-                        
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <h6 class="font-semibold text-gray-900 mb-2">Terakhir Update:</h6>
-                            <p class="text-gray-600">{{ $program->updated_at->format('d F Y H:i') }}</p>
-                        </div>
-                    </div>
-
-                    @if($program->juzTargets->count() > 0)
-                    <div class="mt-6">
-                        <h6 class="font-semibold text-gray-900 mb-3">Daftar Target Juz:</h6>
-                        <div class="flex flex-wrap gap-2">
-                            @foreach($program->juzTargets as $juzTarget)
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                    Juz {{ $juzTarget->juz_number }}
-                                </span>
-                            @endforeach
-                        </div>
-                    </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        <!-- Statistics Card -->
-        <div class="lg:col-span-1">
-            <div class="bg-white rounded-xl shadow-lg border border-gray-200 mb-6 hover:shadow-xl transition-shadow duration-300">
-                <div class="px-6 py-4 border-b border-gray-200 bg-green-50 rounded-t-xl">
-                    <h6 class="text-lg font-semibold text-gray-900 flex items-center">
-                        <i class="fas fa-chart-bar mr-2 text-green-500"></i> Statistik
-                    </h6>
-                </div>
-                <div class="p-6">
-                    <div class="text-center space-y-6">
-                        <div class="pb-6 border-b border-gray-200">
-                            <h4 class="text-3xl font-bold text-green-600">{{ $program->students->count() }}</h4>
-                            <p class="text-sm text-gray-600 font-medium">Total Siswa</p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="text-center bg-green-50 p-4 rounded-lg">
-                                <h5 class="text-xl font-semibold text-green-600">{{ $program->students->count() }}</h5>
-                                <p class="text-sm text-gray-600">Aktif</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h6 class="font-semibold text-gray-900 mb-2">Guru Pembimbing:</h6>
+                                <p class="text-gray-600">{{ $program->guru ? $program->guru->name : 'Belum ditentukan' }}</p>
                             </div>
-                            <div class="text-center bg-emerald-50 p-4 rounded-lg">
-                                <h5 class="text-xl font-semibold text-emerald-600">{{ $program->juzTargets->count() }}</h5>
-                                <p class="text-sm text-gray-600">Target Juz</p>
+                            
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h6 class="font-semibold text-gray-900 mb-2">Target Juz:</h6>
+                                <p class="text-gray-600">{{ $program->juzTargets->count() }} juz</p>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h6 class="font-semibold text-gray-900 mb-2">Dibuat:</h6>
+                                <p class="text-gray-600">{{ $program->created_at->format('d F Y H:i') }}</p>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h6 class="font-semibold text-gray-900 mb-2">Terakhir Update:</h6>
+                                <p class="text-gray-600">{{ $program->updated_at->format('d F Y H:i') }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="bg-white rounded-xl shadow-lg border border-gray-200 mb-6 hover:shadow-xl transition-shadow duration-300">
-                <div class="px-6 py-4 border-b border-gray-200 bg-green-50 rounded-t-xl">
-                    <h6 class="text-lg font-semibold text-gray-900 flex items-center">
-                        <i class="fas fa-cogs mr-2 text-green-500"></i> Aksi Cepat
-                    </h6>
+            <!-- Statistics Card -->
+            <div class="xl:col-span-1">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                    <div class="px-6 py-4 border-b border-gray-200 bg-green-50 rounded-t-xl">
+                        <h6 class="text-lg font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-chart-bar mr-2 text-green-500"></i> Statistik
+                        </h6>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-center space-y-6">
+                            <div class="pb-6 border-b border-gray-200">
+                                <h4 class="text-3xl font-bold text-green-600">{{ $program->students->count() }}</h4>
+                                <p class="text-sm text-gray-600 font-medium">Total Siswa</p>
+                            </div>
+                            <div class="pb-6 border-b border-gray-200">
+                                <h4 class="text-3xl font-bold text-emerald-600">{{ $program->students->where('pivot.status_aktif', true)->count() }}</h4>
+                                <p class="text-sm text-gray-600 font-medium">Siswa Aktif</p>
+                            </div>
+                            <div>
+                                <h4 class="text-3xl font-bold text-blue-600">{{ $program->juzTargets->count() }}</h4>
+                                <p class="text-sm text-gray-600 font-medium">Target Juz</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-6">
-                    <div class="space-y-3">
-                        <a href="{{ route('admin.programs.edit', $program->id) }}" class="w-full inline-flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+
+                <!-- Quick Actions -->
+                <!-- <div class="bg-white rounded-xl shadow-lg border border-gray-200 mt-6 hover:shadow-xl transition-shadow duration-300">
+                    <div class="px-6 py-4 border-b border-gray-200 bg-green-50 rounded-t-xl">
+                        <h6 class="text-lg font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-bolt mr-2 text-green-500"></i> Aksi Cepat
+                        </h6>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <a href="{{ route('admin.programs.edit', $program) }}" class="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
                             <i class="fas fa-edit mr-2"></i> Edit Program
                         </a>
-                        <button onclick="openManageStudentsModal()" class="w-full inline-flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200">
+                        <button onclick="openManageStudentsModal()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
                             <i class="fas fa-users mr-2"></i> Kelola Siswa
                         </button>
-                        <button onclick="openMemorizationModal()" class="w-full inline-flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200">
-                            <i class="fas fa-book mr-2"></i> Lihat Hafalan
+                        <button onclick="openMemorizationModal()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                            <i class="fas fa-book-open mr-2"></i> Lihat Hafalan
                         </button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
-    </div>
 
-    <!-- Students List -->
-    <div class="mt-8">
+
+        <!-- Students List -->
         <div class="bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
             <div class="px-6 py-4 border-b border-gray-200 bg-green-50 rounded-t-xl">
                 <h6 class="text-lg font-semibold text-gray-900 flex items-center">
@@ -249,7 +234,7 @@
                                                             <i class="fas fa-eye mr-3"></i> Lihat Detail
                                                         </a>
                                                         <a href="#" onclick="openMemorizationModal(); return false;" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200">
-                                                            <i class="fas fa-book mr-3"></i> Lihat Hafalan
+                                                            <i class="fas fa-book-open mr-3"></i> Lihat Hafalan
                                                         </a>
                                                         <div class="border-t border-gray-100"></div>
                                                         <a href="#" class="flex items-center px-4 py-2 text-sm text-red-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200">
@@ -277,9 +262,10 @@
         </div>
     </div>
 </div>
+</div>
 
 <!-- Modal Tambah Siswa -->
-<div id="addStudentModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-[9999]">
+<div id="addStudentModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full" style="z-index: 99999;">
     <div class="flex min-h-screen items-center justify-center p-4">
         <div class="relative w-full max-w-md bg-white rounded-xl shadow-2xl border border-gray-200 transform transition-all duration-300">
             <!-- Header -->
@@ -340,7 +326,7 @@
 </div>
 
 <!-- Modal Kelola Siswa -->
-<div id="manageStudentsModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-[9999]">
+<div id="manageStudentsModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full" style="z-index: 99999;">
     <div class="flex min-h-screen items-start justify-center p-4 pt-8">
         <div class="relative w-full max-w-6xl bg-white rounded-xl shadow-2xl border border-gray-200 transform transition-all duration-300">
             <!-- Header -->
@@ -413,7 +399,7 @@
 </div>
 
 <!-- Modal Lihat Hafalan -->
-<div id="memorizationModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-[9999]">
+<div id="memorizationModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full" style="z-index: 99999;">
     <div class="flex min-h-screen items-start justify-center p-4 pt-8">
         <div class="relative w-full max-w-6xl bg-white rounded-xl shadow-2xl border border-gray-200 transform transition-all duration-300">
             <!-- Header -->
@@ -498,10 +484,48 @@
     </div>
 </div>
 
-@section('scripts')
+@endsection
+
+@push('styles')
+<style>
+/* Modal Styles */
+.modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.modal-content {
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+}
+
+/* Ensure modals are above everything */
+#addStudentModal,
+#manageStudentsModal,
+#memorizationModal {
+    z-index: 99999 !important;
+}
+</style>
+@endpush
+
+@push('scripts')
 <script>
-// Progress bar animation
+// Ensure DOM is fully loaded before executing scripts
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing modal functions...');
+    
+    // Progress bar animation
     const progressBars = document.querySelectorAll('.progress-bar');
     progressBars.forEach(bar => {
         const width = bar.style.width;
@@ -510,43 +534,131 @@ document.addEventListener('DOMContentLoaded', function() {
             bar.style.width = width;
         }, 100);
     });
-});
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
     });
-});
 
-$(document).ready(function() {
-    $('#studentsTable').DataTable({
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
-        },
-        "pageLength": 10,
-        "responsive": true,
-        "order": [[1, "asc"]]
-    });
-});
+    // Initialize DataTables if jQuery is available
+    if (typeof $ !== 'undefined' && $.fn.DataTable) {
+        $('#studentsTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
+            },
+            "pageLength": 10,
+            "responsive": true,
+            "order": [[1, "asc"]]
+        });
+    }
 
-function toggleDropdown(index) {
-    const dropdown = document.getElementById('dropdown-' + index);
-    dropdown.classList.toggle('hidden');
+    // Test modal elements existence
+    const addModal = document.getElementById('addStudentModal');
+    const manageModal = document.getElementById('manageStudentsModal');
+    const memorizationModal = document.getElementById('memorizationModal');
     
-    // Close other dropdowns
-    document.querySelectorAll('[id^="dropdown-"]').forEach(function(el) {
-        if (el.id !== 'dropdown-' + index) {
-            el.classList.add('hidden');
-        }
+    console.log('Modal elements found:', {
+        addModal: !!addModal,
+        manageModal: !!manageModal,
+        memorizationModal: !!memorizationModal
     });
+});
+
+// Global modal functions
+window.toggleDropdown = function(index) {
+    const dropdown = document.getElementById('dropdown-' + index);
+    if (dropdown) {
+        dropdown.classList.toggle('hidden');
+        
+        // Close other dropdowns
+        document.querySelectorAll('[id^="dropdown-"]').forEach(function(el) {
+            if (el.id !== 'dropdown-' + index) {
+                el.classList.add('hidden');
+            }
+        });
+    }
+};
+
+// Enhanced Modal Functions
+function openAddStudentModal() {
+    console.log('Opening add student modal');
+    const modal = document.getElementById('addStudentModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+        console.log('Modal opened successfully');
+    } else {
+        console.error('Modal not found');
+    }
+}
+
+function closeAddStudentModal() {
+    console.log('Closing add student modal');
+    const modal = document.getElementById('addStudentModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        console.log('Modal closed successfully');
+    }
+}
+
+function openManageStudentsModal() {
+    console.log('Opening manage students modal');
+    const modal = document.getElementById('manageStudentsModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        console.log('Manage students modal opened successfully');
+    } else {
+        console.error('Manage students modal not found');
+    }
+}
+
+function closeManageStudentsModal() {
+    console.log('Closing manage students modal');
+    const modal = document.getElementById('manageStudentsModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        console.log('Manage students modal closed successfully');
+    }
+}
+
+function openMemorizationModal() {
+    console.log('Opening memorization modal');
+    const modal = document.getElementById('memorizationModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        console.log('Memorization modal opened successfully');
+    } else {
+        console.error('Memorization modal not found');
+    }
+}
+
+function closeMemorizationModal() {
+    console.log('Closing memorization modal');
+    const modal = document.getElementById('memorizationModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        console.log('Memorization modal closed successfully');
+    }
 }
 
 // Close dropdown when clicking outside
@@ -559,53 +671,30 @@ document.addEventListener('click', function(event) {
 });
 
 // Toggle user menu
-function toggleUserMenu() {
+window.toggleUserMenu = function() {
     const menu = document.getElementById('userMenu');
-    menu.classList.toggle('hidden');
-}
+    if (menu) {
+        menu.classList.toggle('hidden');
+    }
+};
 
 // Close user menu when clicking outside
 document.addEventListener('click', function(event) {
     const menu = document.getElementById('userMenu');
     const button = event.target.closest('button');
     
-    if (!button || !button.onclick || button.onclick.toString().indexOf('toggleUserMenu') === -1) {
+    if (menu && (!button || !button.onclick || button.onclick.toString().indexOf('toggleUserMenu') === -1)) {
         menu.classList.add('hidden');
     }
 });
 
-// Modal functions for Add Student
-function openAddStudentModal() {
-    document.getElementById('addStudentModal').classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeAddStudentModal() {
-    document.getElementById('addStudentModal').classList.add('hidden');
-    document.body.style.overflow = 'auto';
-}
-
-// Modal functions for Manage Students
-function openManageStudentsModal() {
-    document.getElementById('manageStudentsModal').classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeManageStudentsModal() {
-    document.getElementById('manageStudentsModal').classList.add('hidden');
-    document.body.style.overflow = 'auto';
-}
-
-// Modal functions for Memorization
-function openMemorizationModal() {
-    document.getElementById('memorizationModal').classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeMemorizationModal() {
-    document.getElementById('memorizationModal').classList.add('hidden');
-    document.body.style.overflow = 'auto';
-}
+// Assign enhanced functions to window object for global access
+window.openAddStudentModal = openAddStudentModal;
+window.closeAddStudentModal = closeAddStudentModal;
+window.openManageStudentsModal = openManageStudentsModal;
+window.closeManageStudentsModal = closeManageStudentsModal;
+window.openMemorizationModal = openMemorizationModal;
+window.closeMemorizationModal = closeMemorizationModal;
 
 // Close modals when clicking outside
 window.onclick = function(event) {
@@ -622,7 +711,7 @@ window.onclick = function(event) {
     if (event.target === memorizationModal) {
         closeMemorizationModal();
     }
-}
+};
 
 // Close modals with Escape key
 document.addEventListener('keydown', function(event) {
@@ -633,4 +722,4 @@ document.addEventListener('keydown', function(event) {
     }
 });
 </script>
-@endsection
+@endpush

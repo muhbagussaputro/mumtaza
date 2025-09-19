@@ -4,28 +4,12 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Breadcrumb -->
-        <nav class="flex mb-8" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                <li class="inline-flex items-center">
-                    <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-green-600">
-                        <i class="fas fa-home mr-2"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <div class="flex items-center">
-                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
-                        <span class="ml-1 text-sm font-medium text-gray-500">Program</span>
-                    </div>
-                </li>
-            </ol>
-        </nav>
-
+    <div class="max-w-7xl">
         <!-- Header -->
         <div class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl shadow-lg p-6 mb-8">
+            
             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                
                 <div class="flex-1">
                     <h1 class="text-3xl font-bold text-white mb-2">
                         <i class="fas fa-book-open mr-3"></i>
@@ -58,14 +42,6 @@
                                placeholder="Nama program..." 
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors">
                     </div>
-                    <!-- <div>
-                        <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                        <select id="status" name="status" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors">
-                            <option value="">Semua Status</option>
-                            <option value="aktif" {{ request('status') === 'aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="tidak_aktif" {{ request('status') === 'tidak_aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                        </select>
-                    </div> -->
                     <div>
                         <label for="jenis" class="block text-sm font-medium text-gray-700 mb-2">Jenis</label>
                         <select id="jenis" name="jenis" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors">
@@ -133,7 +109,6 @@
                             <th class="px-6 py-4 text-left text-xs font-semibold text-green-700 uppercase tracking-wider">Deskripsi</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-green-700 uppercase tracking-wider">Siswa</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-green-700 uppercase tracking-wider">Target</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-green-700 uppercase tracking-wider">Status</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-green-700 uppercase tracking-wider">Dibuat</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-green-700 uppercase tracking-wider">Aksi</th>
                         </tr>
@@ -174,19 +149,6 @@
                                         <div class="bg-green-500 h-2 rounded-full" style="width: {{ $percentage }}%"></div>
                                     </div>
                                 </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if($program->status === 'aktif')
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 border border-green-200">
-                                        <i class="fas fa-check-circle mr-1"></i>
-                                        Aktif
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200">
-                                        <i class="fas fa-times-circle mr-1"></i>
-                                        Tidak Aktif
-                                    </span>
-                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                 {{ $program->created_at ? $program->created_at->format('d M Y') : '-' }}
@@ -238,7 +200,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" class="px-6 py-16 text-center">
+                            <td colspan="7" class="px-6 py-16 text-center">
                                 <div class="flex flex-col items-center">
                                     <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                                         <i class="fas fa-book text-2xl text-green-600"></i>
@@ -258,84 +220,7 @@
                 </table>
             </div>
 
-            <!-- Pagination -->
-            @if($programs->hasPages())
-            <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                <div class="flex-1 flex justify-between sm:hidden">
-                    @if($programs->onFirstPage())
-                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-500 bg-white cursor-not-allowed">
-                            Previous
-                        </span>
-                    @else
-                        <a href="{{ $programs->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50">
-                            Previous
-                        </a>
-                    @endif
-
-                    @if($programs->hasMorePages())
-                        <a href="{{ $programs->nextPageUrl() }}" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50">
-                            Next
-                        </a>
-                    @else
-                        <span class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-500 bg-white cursor-not-allowed">
-                            Next
-                        </span>
-                    @endif
-                </div>
-                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                    <div>
-                        <p class="text-sm text-gray-700">
-                            Showing
-                            <span class="font-semibold">{{ $programs->firstItem() }}</span>
-                            to
-                            <span class="font-semibold">{{ $programs->lastItem() }}</span>
-                            of
-                            <span class="font-semibold">{{ $programs->total() }}</span>
-                            results
-                        </p>
-                    </div>
-                    <div>
-                        <nav class="relative z-0 inline-flex rounded-lg shadow-sm -space-x-px" aria-label="Pagination">
-                            @if($programs->onFirstPage())
-                                <span class="relative inline-flex items-center px-3 py-2 rounded-l-lg border border-gray-300 bg-white text-sm font-medium text-gray-500 cursor-not-allowed">
-                                    <span class="sr-only">Previous</span>
-                                    <i class="fas fa-chevron-left"></i>
-                                </span>
-                            @else
-                                <a href="{{ $programs->previousPageUrl() }}" class="relative inline-flex items-center px-3 py-2 rounded-l-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-green-50 hover:border-green-300 transition-colors duration-200">
-                                    <span class="sr-only">Previous</span>
-                                    <i class="fas fa-chevron-left"></i>
-                                </a>
-                            @endif
-
-                            @foreach($programs->getUrlRange(1, $programs->lastPage()) as $page => $url)
-                                @if($page == $programs->currentPage())
-                                    <span aria-current="page" class="z-10 bg-green-100 border-green-300 text-green-700 relative inline-flex items-center px-4 py-2 border text-sm font-semibold">
-                                        {{ $page }}
-                                    </span>
-                                @else
-                                    <a href="{{ $url }}" class="bg-white border-gray-300 text-gray-700 hover:bg-green-50 hover:border-green-300 relative inline-flex items-center px-4 py-2 border text-sm font-medium transition-colors duration-200">
-                                        {{ $page }}
-                                    </a>
-                                @endif
-                            @endforeach
-
-                            @if($programs->hasMorePages())
-                                <a href="{{ $programs->nextPageUrl() }}" class="relative inline-flex items-center px-3 py-2 rounded-r-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-green-50 hover:border-green-300 transition-colors duration-200">
-                                    <span class="sr-only">Next</span>
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            @else
-                                <span class="relative inline-flex items-center px-3 py-2 rounded-r-lg border border-gray-300 bg-white text-sm font-medium text-gray-500 cursor-not-allowed">
-                                    <span class="sr-only">Next</span>
-                                    <i class="fas fa-chevron-right"></i>
-                                </span>
-                            @endif
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            @endif
+            <!-- DataTables will handle pagination automatically -->
         </div>
     </div>
 </div>
@@ -390,17 +275,19 @@ $(document).ready(function() {
 
     // Initialize DataTable
     $('#dataTable').DataTable({
-        "pageLength": 25,
+        "pageLength": 15, // Match with controller pagination
         "responsive": true,
-        "searching": false, // Disable built-in search since we have custom filters
-        "paging": false, // Disable built-in pagination since we use Laravel pagination
-        "info": false, // Disable info since we have custom info
+        "searching": true, // Disable built-in search since we have custom filters
+        // "paging": true, // Enable DataTables pagination
+        "info": true, // Enable info display
+        "lengthMenu": [[10, 15, 25, 50, -1], [10, 15, 25, 50, "Semua"]],
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
+            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json",
         },
         "columnDefs": [
-            { "orderable": false, "targets": [7] } // Disable sorting on action column
-        ]
+            { "orderable": false, "targets": [6] } // Disable sorting on action column
+        ],
+        "order": [[5, "desc"]] // Sort by created date (column index 5) descending
     });
 
     // Delete program handler

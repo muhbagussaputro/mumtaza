@@ -3,7 +3,7 @@
 @section('content')
 <div class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <div class="bg-gradient-to-r from-teal-500 to-teal-600 text-white">
+    <div class="bg-gradient-to-r from-green-500 to-green-600 text-white">
         <div class="px-4 py-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
@@ -14,12 +14,12 @@
                     </a>
                     <div>
                         <h1 class="text-xl font-bold">Data Hafalan</h1>
-                        <p class="text-teal-100 text-sm">Kelola setoran hafalan siswa</p>
+                        <p class="text-green-100 text-sm">Kelola setoran hafalan siswa</p>
                     </div>
                 </div>
                 <div class="mt-4">
                     <a href="{{ route('guru.siswa.index') }}" 
-                       class="inline-flex items-center px-4 py-2 bg-white text-teal-600 rounded-lg hover:bg-teal-50 border border-teal-200">
+                       class="inline-flex items-center px-4 py-2 bg-white text-green-600 rounded-lg hover:bg-green-50 border border-green-200">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                         </svg>
@@ -36,7 +36,7 @@
             <form method="GET" action="{{ route('guru.hafalan.index') }}">
                 <div class="space-y-3">
                     <div class="flex gap-2">
-                        <select name="student_id" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                        <select name="student_id" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
                             <option value="">Semua Siswa</option>
                             @foreach($students as $student)
                                 <option value="{{ $student->id }}" {{ request('student_id') == $student->id ? 'selected' : '' }}>
@@ -44,7 +44,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"/>
                             </svg>
@@ -52,13 +52,13 @@
                     </div>
                     
                     <div class="flex gap-2">
-                        <select name="klasifikasi" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                        <select name="klasifikasi" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
                             <option value="">Semua Status</option>
                             <option value="tercapai" {{ request('klasifikasi') == 'tercapai' ? 'selected' : '' }}>Tercapai</option>
                             <option value="belum_tercapai" {{ request('klasifikasi') == 'belum_tercapai' ? 'selected' : '' }}>Belum Tercapai</option>
                         </select>
                         
-                        <select name="program_id" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                        <select name="program_id" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
                             <option value="">Semua Program</option>
                             @foreach($programs as $program)
                                 <option value="{{ $program->id }}" {{ request('program_id') == $program->id ? 'selected' : '' }}>
@@ -94,13 +94,13 @@
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center mr-3">
+                                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
                                         @if($entry->student->foto_path)
                                             <img src="{{ asset('storage/' . $entry->student->foto_path) }}" 
                                                  alt="{{ $entry->student->name }}" 
                                                  class="w-10 h-10 rounded-full object-cover">
                                         @else
-                                            <svg class="w-5 h-5 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                                             </svg>
                                         @endif
@@ -194,7 +194,7 @@ $(document).ready(function() {
         },
         "pageLength": 15,
         "lengthMenu": [[10, 15, 25, 50, -1], [10, 15, 25, 50, "Semua"]],
-        "order": [[6, "desc"]], // Sort by date column
+        "order": [[6, "desc"]],
         "columnDefs": [
             { "orderable": false, "targets": [7] }, // Disable sorting for action column
             { "searchable": false, "targets": [7] }  // Disable search for action column
@@ -203,10 +203,10 @@ $(document).ready(function() {
         "dom": '<"flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"<"mb-2 sm:mb-0"l><"mb-2 sm:mb-0"f>>rtip',
         "initComplete": function() {
             // Custom styling for DataTables elements
-            $('.dataTables_length select').addClass('form-select text-sm border-gray-300 rounded-md');
-            $('.dataTables_filter input').addClass('form-input text-sm border-gray-300 rounded-md');
-            $('.dataTables_paginate .paginate_button').addClass('px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50');
-            $('.dataTables_paginate .paginate_button.current').addClass('bg-blue-500 text-white border-blue-500');
+            $('.dataTables_length select').addClass('form-select text-sm border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500');
+            $('.dataTables_filter input').addClass('form-input text-sm border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500');
+            $('.dataTables_paginate .paginate_button').addClass('px-3 py-1 text-sm border border-gray-300 rounded hover:bg-green-50');
+            $('.dataTables_paginate .paginate_button.current').addClass('bg-green-500 text-white border-green-500');
         }
     });
 });

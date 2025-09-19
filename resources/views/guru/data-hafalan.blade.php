@@ -3,35 +3,35 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="bg-white rounded-lg shadow-md">
-        <div class="px-6 py-4 border-b border-gray-200">
-            <h2 class="text-xl font-semibold text-gray-800">Data Hafalan</h2>
+        <div class="px-6 py-4 border-b border-green-200 bg-gradient-to-r from-green-50 to-green-100">
+            <h2 class="text-xl font-semibold text-green-800">Data Hafalan</h2>
         </div>
         
         <div class="p-6">
             @if($entries->count() > 0)
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-green-200 datatable responsive-table">
+                        <thead class="bg-green-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">
                                     Siswa
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">
                                     Surah
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">
                                     Juz
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">
                                     Ayat
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">
                                     Status
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">
                                     Nilai
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">
                                     Tanggal
                                 </th>
                             </tr>
@@ -41,13 +41,13 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center mr-3">
+                                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
                                                 @if($entry->student->foto_path)
                                                     <img src="{{ asset('storage/' . $entry->student->foto_path) }}" 
                                                          alt="{{ $entry->student->name }}" 
                                                          class="w-10 h-10 rounded-full object-cover">
                                                 @else
-                                                    <span class="text-teal-600 font-semibold text-sm">
+                                                    <span class="text-green-600 font-semibold text-sm">
                                                         {{ strtoupper(substr($entry->student->name, 0, 2)) }}
                                                     </span>
                                                 @endif
@@ -100,3 +100,22 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/responsive-datatable.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('.datatable').DataTable({
+            responsive: true,
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
+            },
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: 1 },
+                { responsivePriority: 3, targets: 4 }
+            ]
+        });
+    });
+</script>
+@endpush

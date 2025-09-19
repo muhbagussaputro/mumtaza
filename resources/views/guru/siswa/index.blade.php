@@ -3,18 +3,18 @@
 @section('content')
 <div class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <div class="bg-gradient-to-r from-teal-500 to-teal-600 text-white">
+    <div class="bg-gradient-to-r from-green-500 to-green-600 text-white">
         <div class="px-4 py-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <a href="{{ route('guru.dashboard') }}" class="mr-3">
+                    <a href="{{ route('guru.dashboard') }}" class="mr-3 hover:bg-green-700 p-2 rounded-full transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                     </a>
                     <div>
                         <h1 class="text-xl font-bold">Data Siswa</h1>
-                        <p class="text-teal-100 text-sm">Kelola data siswa Anda</p>
+                        <p class="text-green-100 text-sm">Kelola data siswa Anda</p>
                     </div>
                 </div>
             </div>
@@ -23,15 +23,15 @@
 
     <!-- Search and Filter -->
     <div class="px-4 py-4">
-        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4 border border-green-100">
             <form method="GET" action="{{ route('guru.siswa.index') }}">
                 <div class="flex gap-2 mb-3">
                     <div class="flex-1">
                         <input type="text" name="search" value="{{ request('search') }}" 
                                placeholder="Cari nama siswa..." 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
                     </div>
-                    <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
@@ -39,7 +39,7 @@
                 </div>
                 
                 <div class="flex gap-2">
-                    <select name="program" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                    <select name="program" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
                         <option value="">Semua Program</option>
                         @foreach($programs as $program)
                             <option value="{{ $program->id }}" {{ request('program') == $program->id ? 'selected' : '' }}>
@@ -48,7 +48,7 @@
                         @endforeach
                     </select>
                     
-                    <select name="status" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                    <select name="status" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
                         <option value="">Semua Status</option>
                         <option value="aktif" {{ request('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
                         <option value="tidak_aktif" {{ request('status') == 'tidak_aktif' ? 'selected' : '' }}>Tidak Aktif</option>
@@ -63,15 +63,15 @@
         <div class="bg-white rounded-lg shadow-sm overflow-hidden">
             @if($students->count() > 0)
                 <table id="studentsTable" class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-green-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Siswa</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIS</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Progress</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Siswa</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">NIS</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Program</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Progress</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -79,11 +79,11 @@
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center mr-3">
+                                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
                                         @if($student->foto_path)
                                             <img src="{{ asset('storage/' . $student->foto_path) }}" alt="{{ $student->name }}" class="w-10 h-10 rounded-full object-cover">
                                         @else
-                                            <svg class="w-5 h-5 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                                             </svg>
                                         @endif
@@ -115,7 +115,7 @@
                                     @endphp
                                     <div class="flex items-center">
                                         <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
-                                            <div class="bg-teal-600 h-2 rounded-full" style="width: {{ $avgProgress }}%"></div>
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: {{ $avgProgress }}%"></div>
                                         </div>
                                         <span class="text-sm text-gray-600">{{ number_format($avgProgress, 1) }}%</span>
                                     </div>
@@ -126,13 +126,13 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex items-center space-x-2">
                                     <a href="{{ route('guru.siswa.show', $student->id) }}" 
-                                       class="text-teal-600 hover:text-teal-900" title="Lihat Detail">
+                                       class="text-green-600 hover:text-green-900" title="Lihat Detail">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                         </svg>
                                     </a>
-                                    <a href="{{ route('guru.hafalan.create', ['student_id' => $student->id]) }}" 
+                                    <a href="{{ route('guru.setoran.create', ['student' => $student->id]) }}" 
                                        class="text-blue-600 hover:text-blue-900" title="Tambah Hafalan">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
@@ -169,8 +169,8 @@ $(document).ready(function() {
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json"
         },
-        "pageLength": 10,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Semua"]],
+        "pageLength": 15,
+        "lengthMenu": [[5, 10, 15, 25, 50, -1], [5, 10, 15, 25, 50, "Semua"]],
         "order": [[0, "asc"]],
         "columnDefs": [
             { "orderable": false, "targets": [6] }

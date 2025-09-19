@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="flex space-x-2">
-                    <a href="{{ route('guru.hafalan.create', ['student_id' => $student->id]) }}" 
+                    <a href="{{ route('guru.setoran.create', ['student' => $student->id]) }}" 
                        class="px-3 py-2 bg-white text-teal-600 rounded-lg text-sm font-medium hover:bg-gray-50">
                         + Setoran
                     </a>
@@ -100,9 +100,9 @@
                 <a href="{{ route('guru.hafalan.index', ['student_id' => $student->id]) }}" 
                    class="text-sm text-teal-600 hover:text-teal-700">Lihat Semua</a>
             </div>
-            @if($recentMemorizations->count() > 0)
+            @if($recentEntries->count() > 0)
                 <div class="space-y-3">
-                    @foreach($recentMemorizations as $memorization)
+                    @foreach($recentEntries as $memorization)
                     <div class="border-l-4 border-teal-500 pl-4 py-2">
                         <div class="flex justify-between items-start">
                             <div class="flex-1">

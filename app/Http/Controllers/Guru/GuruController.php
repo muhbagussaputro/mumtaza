@@ -215,7 +215,27 @@ class GuruController extends Controller
             ->limit(10)
             ->get();
 
-        return view('guru.siswa.show', compact('student', 'recentEntries'));
+        // Calculate statistics
+        $totalMemorizations = MemorizationEntry::where('student_id', $student->id)
+            ->where('guru_id', $guru->id)
+            ->count();
+
+        $lancarCount = MemorizationEntry::where('student_id', $student->id)
+            ->where('guru_id', $guru->id)
+            ->where('keterangan', 'lancar')
+            ->count();
+
+        $kurangLancarCount = MemorizationEntry::where('student_id', $student->id)
+            ->where('guru_id', $guru->id)
+            ->where('keterangan', 'kurang_lancar')
+            ->count();
+
+        $tidakLancarCount = MemorizationEntry::where('student_id', $student->id)
+            ->where('guru_id', $guru->id)
+            ->where('keterangan', 'tidak_lancar')
+            ->count();
+
+        return view('guru.siswa.show', compact('student', 'recentEntries', 'totalMemorizations', 'lancarCount', 'kurangLancarCount', 'tidakLancarCount'));
     }
 
     public function hafalanIndex(Request $request)

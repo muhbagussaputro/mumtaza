@@ -6,14 +6,14 @@
     <div class="bg-gradient-to-r from-teal-500 to-teal-600 text-white">
         <div class="px-4 py-6">
             <div class="flex items-center">
-                <a href="{{ route('guru.siswa.show', $student->id) }}" class="mr-3">
+                <a href="{{ route('guru.siswa.show', $entry->student_id) }}" class="mr-3">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </a>
                 <div>
-                    <h1 class="text-xl font-bold">Input Hafalan</h1>
-                    <p class="text-teal-100 text-sm">{{ $student->name }}</p>
+                    <h1 class="text-xl font-bold">Edit Hafalan</h1>
+                    <p class="text-teal-100 text-sm">{{ $entry->student->name }}</p>
                 </div>
             </div>
         </div>
@@ -28,16 +28,17 @@
             </p>
         </div>
         
-        <form action="{{ route('guru.setoran.store') }}" method="POST" id="memorizationForm" class="space-y-4">
+        <form action="{{ route('guru.setoran.update', $entry->id) }}" method="POST" class="space-y-4">
             @csrf
-            <input type="hidden" name="student_id" value="{{ $student->id }}">
+            @method('PUT')
+            <input type="hidden" name="student_id" value="{{ $entry->student_id }}">
             
             <!-- Student Info Card -->
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
-                        @if($student->foto_path)
-                            <img src="{{ asset('storage/' . $student->foto_path) }}" alt="{{ $student->name }}" class="w-12 h-12 rounded-full object-cover">
+                        @if($entry->student->foto_path)
+                            <img src="{{ asset('storage/' . $entry->student->foto_path) }}" alt="{{ $entry->student->name }}" class="w-12 h-12 rounded-full object-cover">
                         @else
                             <svg class="w-6 h-6 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
@@ -45,8 +46,8 @@
                         @endif
                     </div>
                     <div class="ml-3">
-                        <h3 class="font-semibold text-gray-900">{{ $student->name }}</h3>
-                        <p class="text-sm text-gray-500">NIS: {{ $student->nis ?? '-' }}</p>
+                        <h3 class="font-semibold text-gray-900">{{ $entry->student->name }}</h3>
+                        <p class="text-sm text-gray-500">NIS: {{ $entry->student->nis ?? '-' }}</p>
                     </div>
                 </div>
             </div>
@@ -60,8 +61,7 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                     <option value="">Pilih Program</option>
                     @foreach($studentPrograms as $studentProgram)
-                        <option value="{{ $studentProgram->program_id }}" 
-                                {{ $selectedProgram && $selectedProgram->program_id == $studentProgram->program_id ? 'selected' : '' }}>
+                        <option value="{{ $studentProgram->program->id }}" {{ $entry->program_id == $studentProgram->program->id ? 'selected' : '' }}>
                             {{ $studentProgram->program->nama }}
                         </option>
                     @endforeach
@@ -71,17 +71,17 @@
                 @enderror
             </div>
 
-            <!-- Jadwal Setoran -->
+            <!-- Waktu -->
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Jadwal Setoran <span class="text-red-500">*</span>
+                    Waktu <span class="text-red-500">*</span>
                 </label>
                 <select name="jadwal_setoran" required 
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                    <option value="">Pilih Jadwal</option>
-                    <option value="pagi">Pagi</option>
-                    <option value="siang">Siang</option>
-                    <option value="malam">Malam</option>
+                    <option value="">Pilih Waktu</option>
+                    <option value="pagi" {{ $entry->jadwal_setoran == 'pagi' ? 'selected' : '' }}>Pagi</option>
+                    <option value="siang" {{ $entry->jadwal_setoran == 'siang' ? 'selected' : '' }}>Siang</option>
+                    <option value="malam" {{ $entry->jadwal_setoran == 'malam' ? 'selected' : '' }}>Malam</option>
                 </select>
                 @error('jadwal_setoran')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -96,15 +96,15 @@
                 <select name="hadir" required 
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                     <option value="">Pilih Kehadiran</option>
-                    <option value="1">Hadir</option>
-                    <option value="0">Tidak Hadir</option>
+                    <option value="1" {{ $entry->hadir ? 'selected' : '' }}>Hadir</option>
+                    <option value="0" {{ !$entry->hadir ? 'selected' : '' }}>Tidak Hadir</option>
                 </select>
                 @error('hadir')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Surah Selection with Select2 -->
+            <!-- Surah Selection -->
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     Surah <span class="text-red-500">*</span>
@@ -113,7 +113,7 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                     <option value="">Pilih Surah</option>
                     @foreach($surahs as $surah)
-                        <option value="{{ $surah->id }}">
+                        <option value="{{ $surah->id }}" {{ $entry->surah_id == $surah->id ? 'selected' : '' }}>
                             {{ $surah->number }}. {{ $surah->name_ar }} ({{ $surah->name_id }})
                         </option>
                     @endforeach
@@ -123,59 +123,32 @@
                 @enderror
             </div>
 
-            <!-- Halaman dan Ayat Range -->
+            <!-- Ayat Range -->
             <div class="bg-white rounded-lg shadow-sm p-4">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Ayat <span class="text-red-500">*</span>
+                        </label>
+                        <input type="number" name="ayat" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                               placeholder="1" value="{{ $entry->ayat }}">
+                        @error('ayat')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Halaman
                         </label>
-                        <input type="number" name="halaman" min="1"
+                        <input type="number" name="halaman" 
                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                               placeholder="1">
+                               placeholder="1" value="{{ $entry->halaman }}">
                         @error('halaman')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Ayat Mulai <span class="text-red-500">*</span>
-                        </label>
-                        <input type="number" name="start_ayah" required min="1"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                               placeholder="1">
-                        @error('start_ayah')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Ayat Selesai <span class="text-red-500">*</span>
-                        </label>
-                        <input type="number" name="end_ayah" required min="1"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                               placeholder="10">
-                        @error('end_ayah')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
                 </div>
-            </div>
-
-            <!-- Ayat (Hidden field for compatibility) -->
-            <input type="hidden" name="ayat" value="1">
-
-            <!-- Juz Number -->
-            <div class="bg-white rounded-lg shadow-sm p-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Juz <span class="text-red-500">*</span>
-                </label>
-                <input type="number" name="juz_number" required min="1" max="30"
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                       placeholder="1-30">
-                @error('juz_number')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
             </div>
 
             <!-- Jenis Hafalan -->
@@ -186,25 +159,25 @@
                 <select name="jenis_setoran" required 
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                     <option value="">Pilih Jenis Hafalan</option>
-                    <option value="tambah_hafalan">Tambah hafalan</option>
-                    <option value="murojaah_qorib">Murojaah Qorib</option>
-                    <option value="murojaah_bid">Murojaah Bid</option>
+                    <option value="tambah_hafalan" {{ $entry->jenis_setoran == 'tambah_hafalan' ? 'selected' : '' }}>Tambah hafalan</option>
+                    <option value="murojaah_qorib" {{ $entry->jenis_setoran == 'murojaah_qorib' ? 'selected' : '' }}>Murojaah Qorib</option>
+                    <option value="murojaah_bid" {{ $entry->jenis_setoran == 'murojaah_bid' ? 'selected' : '' }}>Murojaah Bid</option>
                 </select>
                 @error('jenis_setoran')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Klasifikasi -->
+            <!-- Target -->
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Klasifikasi <span class="text-red-500">*</span>
+                    Target <span class="text-red-500">*</span>
                 </label>
                 <select name="klasifikasi" required 
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                    <option value="">Pilih Klasifikasi</option>
-                    <option value="tercapai">Tercapai</option>
-                    <option value="tidak_tercapai">Tidak Tercapai</option>
+                    <option value="">Pilih Target</option>
+                    <option value="tercapai" {{ $entry->klasifikasi == 'tercapai' ? 'selected' : '' }}>Tercapai</option>
+                    <option value="tidak_tercapai" {{ $entry->klasifikasi == 'tidak_tercapai' ? 'selected' : '' }}>Tidak Tercapai</option>
                 </select>
                 @error('klasifikasi')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -219,59 +192,54 @@
                 <select name="keterangan" required 
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                     <option value="">Pilih Keterangan</option>
-                    <option value="lancar">Lancar</option>
-                    <option value="tidak lancar">Tidak Lancar</option>
+                    <option value="lancar" {{ $entry->keterangan == 'lancar' ? 'selected' : '' }}>Lancar</option>
+                    <option value="tidak lancar" {{ $entry->keterangan == 'tidak lancar' ? 'selected' : '' }}>Tidak Lancar</option>
                 </select>
                 @error('keterangan')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Notes -->
+            <!-- Komentar -->
             <div class="bg-white rounded-lg shadow-sm p-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Komentar</label>
                 <textarea name="notes" rows="3" 
                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                          placeholder="Masukkan catatan tambahan..."></textarea>
+                          placeholder="Masukkan komentar tambahan...">{{ $entry->notes }}</textarea>
                 @error('notes')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Pelanggaran -->
+            <!-- Juz Number -->
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                    <input type="checkbox" name="has_violation" id="has_violation" value="1" class="mr-2">
-                    Tambahkan Pelanggaran
+                    Juz <span class="text-red-500">*</span>
                 </label>
+                <input type="number" name="juz_number" required min="1" max="30"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                       placeholder="1-30" value="{{ $entry->juz_number }}">
+                @error('juz_number')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
-            <!-- Pilihan Pelanggaran -->
-            <div class="bg-white rounded-lg shadow-sm p-4" id="violations_div" style="display: none;">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Pelanggaran</label>
+            <!-- Violations -->
+            <div class="bg-white rounded-lg shadow-sm p-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Pelanggaran
+                </label>
                 <div class="space-y-2">
                     @foreach($violations as $violation)
                         <label class="flex items-center">
-                            <input type="checkbox" name="violations[]" value="{{ $violation->id }}" class="mr-2">
-                            <span class="text-sm text-gray-700">{{ $violation->name }}</span>
+                            <input type="checkbox" name="violations[]" value="{{ $violation->id }}" 
+                                   {{ $entry->violations->contains('violation_id', $violation->id) ? 'checked' : '' }}
+                                   class="rounded border-gray-300 text-teal-600 focus:ring-teal-500">
+                            <span class="ml-2 text-sm text-gray-700">{{ $violation->nama }}</span>
                         </label>
                     @endforeach
                 </div>
                 @error('violations')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-                @error('violations.*')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Halaman -->
-            <div class="bg-white rounded-lg shadow-sm p-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Halaman</label>
-                <input type="text" name="halaman" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                       placeholder="Contoh: 1-5">
-                @error('halaman')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -279,14 +247,14 @@
             <!-- Submit Button -->
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <button type="button" id="submitBtn"
+                    <button type="submit" 
                             class="flex-1 bg-teal-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-teal-700 transition duration-200 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
                         <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
-                        Simpan Hafalan
+                        Update Hafalan
                     </button>
-                    <a href="{{ route('guru.siswa.show', $student->id) }}" 
+                    <a href="{{ route('guru.siswa.show', $entry->student_id) }}" 
                        class="flex-1 bg-gray-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-600 transition duration-200 text-center focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                         <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -313,57 +281,6 @@ $(document).ready(function() {
         placeholder: 'Cari dan pilih surah...',
         allowClear: true,
         width: '100%'
-    });
-
-    // Show/hide violations based on checkbox
-    $('#has_violation').change(function() {
-        if ($(this).is(':checked')) {
-            $('#violations_div').show();
-        } else {
-            $('#violations_div').hide();
-            $('input[name="violations[]"]').prop('checked', false);
-        }
-    });
-
-    // SweetAlert2 confirmation for form submission
-    $('#submitBtn').click(function(e) {
-        e.preventDefault();
-        
-        // Validate form first
-        const form = document.getElementById('memorizationForm');
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        // Show confirmation dialog
-        Swal.fire({
-            title: 'Konfirmasi Penyimpanan',
-            text: 'Apakah Anda yakin ingin menyimpan data hafalan ini?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#0d9488',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Ya, Simpan!',
-            cancelButtonText: 'Batal',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Show loading
-                Swal.fire({
-                    title: 'Menyimpan...',
-                    text: 'Mohon tunggu, sedang menyimpan data hafalan.',
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    willOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-                
-                // Submit form
-                form.submit();
-            }
-        });
     });
 });
 </script>

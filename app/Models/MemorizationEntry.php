@@ -18,11 +18,9 @@ class MemorizationEntry extends Model
         'guru_id',
         'juz_number',
         'surah_id',
-        'halaman_from',
-        'halaman_to',
-        'ayat_from',
-        'ayat_to',
-        'jadwal',
+        'halaman',
+        'ayat',
+        'jadwal_setoran',
         'jenis_setoran',
         'keterangan',
         'klasifikasi',
@@ -33,10 +31,8 @@ class MemorizationEntry extends Model
     protected $casts = [
         'juz_number' => 'integer',
         'surah_id' => 'integer',
-        'halaman_from' => 'integer',
-        'halaman_to' => 'integer',
-        'ayat_from' => 'integer',
-        'ayat_to' => 'integer',
+        'halaman' => 'integer',
+        'ayat' => 'integer',
         'hadir' => 'boolean',
     ];
 
@@ -62,7 +58,7 @@ class MemorizationEntry extends Model
 
     public function violations(): HasMany
     {
-        return $this->hasMany(MemorizationEntryViolation::class);
+        return $this->hasMany(MemorizationEntryViolation::class, 'entry_id');
     }
 
     // Scope untuk jadwal setoran

@@ -3,18 +3,18 @@
 @section('content')
 <div class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <div class="bg-gradient-to-r from-teal-500 to-teal-600 text-white">
+    <div class="bg-gradient-to-r from-green-500 to-green-600 text-white">
         <div class="px-4 py-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <a href="{{ route('guru.dashboard') }}" class="mr-3">
+                    <a href="{{ route('guru.dashboard') }}" class="mr-3 hover:bg-green-700 p-2 rounded-full transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                     </a>
                     <div>
                         <h1 class="text-xl font-bold">Laporan Hafalan</h1>
-                        <p class="text-teal-100 text-sm">Laporan progress hafalan siswa</p>
+                        <p class="text-green-100 text-sm">Laporan progress hafalan siswa</p>
                     </div>
                 </div>
             </div>
@@ -68,22 +68,22 @@
         </div>
 
         <!-- Filters -->
-        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4 border border-green-100">
             <form method="GET" action="{{ route('guru.laporan.index') }}">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai</label>
+                        <label class="block text-sm font-medium text-green-800 mb-1">Tanggal Mulai</label>
                         <input type="date" name="tanggal_mulai" value="{{ request('tanggal_mulai') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Selesai</label>
+                        <label class="block text-sm font-medium text-green-800 mb-1">Tanggal Selesai</label>
                         <input type="date" name="tanggal_selesai" value="{{ request('tanggal_selesai') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
-                        <select name="program_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                        <label class="block text-sm font-medium text-green-800 mb-1">Program</label>
+                        <select name="program_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
                             <option value="">Semua Program</option>
                             @foreach($programs as $program)
                                 <option value="{{ $program->id }}" {{ request('program_id') == $program->id ? 'selected' : '' }}>
@@ -94,10 +94,10 @@
                     </div>
                 </div>
                 <div class="flex gap-2 mt-4">
-                    <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                         Filter
                     </button>
-                    <a href="{{ route('guru.laporan.index') }}" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
+                    <a href="{{ route('guru.laporan.index') }}" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
                         Reset
                     </a>
                 </div>
@@ -181,8 +181,8 @@ $(document).ready(function() {
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json"
         },
-        "pageLength": 10,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Semua"]],
+        "pageLength": 15,
+        "lengthMenu": [[5, 10, 15, 25, 50, -1], [5, 10, 15, 25, 50, "Semua"]],
         "order": [[0, "desc"]],
         "columnDefs": [
             { "orderable": false, "targets": [5] }

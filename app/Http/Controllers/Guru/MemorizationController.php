@@ -51,16 +51,16 @@ class MemorizationController extends Controller
             'program_id' => 'required|exists:programs,id',
             'juz_number' => 'required|integer|between:1,30',
             'surah_id' => 'required|exists:surahs,id',
-            'halaman_from' => 'required|integer|min:1',
-            'halaman_to' => 'required|integer|gte:halaman_from',
-            'ayat_from' => 'required|integer|min:1',
-            'ayat_to' => 'required|integer|gte:ayat_from',
-            'jadwal' => 'required|in:pagi,siang,malam',
+            'start_ayah' => 'required|integer|min:1',
+            'end_ayah' => 'required|integer|min:1|gte:start_ayah',
+            'halaman' => 'nullable|integer|min:1',
+            'jadwal_setoran' => 'required|in:pagi,siang,malam',
             'keterangan' => 'required|in:lancar,tidak_lancar',
             'klasifikasi' => 'required|in:tercapai,tidak_tercapai',
-            'jenis_setoran' => 'required|in:tambah,murojaah_qorib,murojaah_bid',
-            'has_violation' => 'boolean',
-            'violations' => 'array',
+            'jenis_setoran' => 'required|in:tambah_hafalan,murojaah_qorib,murojaah_bid',
+            'hadir' => 'required|boolean',
+            'has_violation' => 'nullable|boolean',
+            'violations' => 'nullable|array',
             'violations.*' => 'exists:violations,id',
             'notes' => 'nullable|string|max:1000',
         ]);
@@ -69,28 +69,29 @@ class MemorizationController extends Controller
 
         try {
             // Create memorization entry
-            $entry = MemorizationEntry::create([
+            $entryData = [
                 'student_id' => $request->student_id,
                 'program_id' => $request->program_id,
                 'guru_id' => $guru->id,
                 'juz_number' => $request->juz_number,
                 'surah_id' => $request->surah_id,
-                'halaman_from' => $request->halaman_from,
-                'halaman_to' => $request->halaman_to,
-                'ayat_from' => $request->ayat_from,
-                'ayat_to' => $request->ayat_to,
-                'jadwal' => $request->jadwal,
+                'halaman' => $request->halaman,
+                'ayat' => $request->start_ayah, // Gunakan start_ayah sebagai ayat
+                'jadwal_setoran' => $request->jadwal_setoran,
                 'keterangan' => $request->keterangan,
                 'klasifikasi' => $request->klasifikasi,
                 'jenis_setoran' => $request->jenis_setoran,
+                'hadir' => $request->hadir ?? true,
                 'notes' => $request->notes,
-            ]);
+            ];
+
+            $entry = MemorizationEntry::create($entryData);
 
             // Add violations if any
             if ($request->has_violation && $request->violations) {
                 foreach ($request->violations as $violationId) {
                     MemorizationEntryViolation::create([
-                        'memorization_entry_id' => $entry->id,
+                        'entry_id' => $entry->id,
                         'violation_id' => $violationId,
                     ]);
                 }
@@ -98,12 +99,12 @@ class MemorizationController extends Controller
 
             DB::commit();
 
-            return redirect()->route('guru.hafalan.index')->with('success', 'Setoran berhasil ditambahkan');
+            return redirect()->route('guru.data-hafalan')->with('success', 'Setoran berhasil ditambahkan');
 
         } catch (\Exception $e) {
             DB::rollback();
 
-            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data']);
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data: '.$e->getMessage()]);
         }
     }
 
@@ -151,19 +152,18 @@ class MemorizationController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'juz_number' => 'required|integer|between:1,30',
             'surah_id' => 'required|exists:surahs,id',
-            'halaman_from' => 'required|integer|min:1',
-            'halaman_to' => 'required|integer|gte:halaman_from',
-            'ayat_from' => 'required|integer|min:1',
-            'ayat_to' => 'required|integer|gte:ayat_from',
-            'jadwal' => 'required|in:pagi,siang,malam',
+            'halaman' => 'nullable|integer|min:1',
+            'ayat' => 'nullable|integer|min:1',
+            'jadwal_setoran' => 'required|in:pagi,siang,malam',
             'keterangan' => 'required|in:lancar,tidak_lancar',
             'klasifikasi' => 'required|in:tercapai,tidak_tercapai',
-            'jenis_setoran' => 'required|in:tambah,murojaah_qorib,murojaah_bid',
+            'jenis_setoran' => 'required|in:tambah_hafalan,murojaah_qorib,murojaah_bid',
+            'hadir' => 'required|boolean',
             'has_violation' => 'boolean',
-            'violations' => 'array',
+            'violations' => 'nullable|array',
             'violations.*' => 'exists:violations,id',
             'notes' => 'nullable|string|max:1000',
         ]);
@@ -173,25 +173,24 @@ class MemorizationController extends Controller
         try {
             // Update memorization entry
             $entry->update([
-                'juz_number' => $request->juz_number,
-                'surah_id' => $request->surah_id,
-                'halaman_from' => $request->halaman_from,
-                'halaman_to' => $request->halaman_to,
-                'ayat_from' => $request->ayat_from,
-                'ayat_to' => $request->ayat_to,
-                'jadwal' => $request->jadwal,
-                'keterangan' => $request->keterangan,
-                'klasifikasi' => $request->klasifikasi,
-                'jenis_setoran' => $request->jenis_setoran,
-                'notes' => $request->notes,
+                'juz_number' => $validated['juz_number'],
+                'surah_id' => $validated['surah_id'],
+                'halaman' => $validated['halaman'],
+                'ayat' => $validated['ayat'],
+                'jadwal_setoran' => $validated['jadwal_setoran'],
+                'keterangan' => $validated['keterangan'],
+                'klasifikasi' => $validated['klasifikasi'],
+                'jenis_setoran' => $validated['jenis_setoran'],
+                'hadir' => $validated['hadir'],
+                'notes' => $validated['notes'],
             ]);
 
             // Update violations
             $entry->violations()->delete();
-            if ($request->has_violation && $request->violations) {
-                foreach ($request->violations as $violationId) {
+            if (! empty($validated['has_violation']) && ! empty($validated['violations'])) {
+                foreach ($validated['violations'] as $violationId) {
                     MemorizationEntryViolation::create([
-                        'memorization_entry_id' => $entry->id,
+                        'entry_id' => $entry->id,
                         'violation_id' => $violationId,
                     ]);
                 }
@@ -205,7 +204,7 @@ class MemorizationController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
 
-            return back()->withErrors(['error' => 'Terjadi kesalahan saat mengupdate data'])
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat mengupdate data: '.$e->getMessage()])
                 ->withInput();
         }
     }

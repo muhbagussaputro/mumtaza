@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Guru extends Model
 {
@@ -13,6 +14,7 @@ class Guru extends Model
     protected $table = 'gurus';
 
     protected $fillable = [
+        'user_id',
         'nama',
         'foto_profil',
         'tempat_lahir',
@@ -36,6 +38,7 @@ class Guru extends Model
     public static function validationRules($id = null)
     {
         return [
+            'user_id' => 'nullable|exists:users,id',
             'nama' => 'required|string|max:255',
             'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'tempat_lahir' => 'nullable|string|max:255',
@@ -51,6 +54,7 @@ class Guru extends Model
     public static function validationMessages()
     {
         return [
+            'user_id.exists' => 'User yang dipilih tidak valid.',
             'nama.required' => 'Nama guru wajib diisi.',
             'nama.string' => 'Nama guru harus berupa teks.',
             'nama.max' => 'Nama guru maksimal 255 karakter.',
@@ -96,5 +100,10 @@ class Guru extends Model
     public function getStatusLabelAttribute()
     {
         return $this->status === 'active' ? 'Aktif' : 'Tidak Aktif';
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

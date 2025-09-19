@@ -128,8 +128,8 @@ class ProgramTest extends TestCase
         ];
         
         $response = $this->put(route('admin.programs.update', $program), $updateData);
-        
-        $response->assertRedirect(route('admin.programs.show', $program));
+
+        $response->assertRedirect(route('admin.programs.index'));
         $response->assertSessionHas('success');
         
         $this->assertDatabaseHas('programs', [

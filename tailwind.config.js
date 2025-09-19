@@ -74,8 +74,8 @@ export default {
                 128: "32rem",
             },
             boxShadow: {
-                lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                lg: "0 10px 15px -3px rgb(255, 255, 255), 0 4px 6px -2px rgb(255, 255, 255)",
+                xl: "0 20px 25px -5px hsla(0, 0.00%, 100.00%, 0.10), 0 10px 10px -5px rgb(255, 255, 255)",
             },
             transitionProperty: {
                 height: "height",

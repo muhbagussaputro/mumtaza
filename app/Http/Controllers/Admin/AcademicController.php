@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
 use App\Models\Program;
-use App\Models\ProgramJuzTarget;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -85,7 +84,7 @@ class AcademicController extends Controller
 
         // Apply search filter
         if ($request->filled('search')) {
-            $query->where('nama', 'like', '%' . $request->search . '%');
+            $query->where('nama', 'like', '%'.$request->search.'%');
         }
 
         // Apply status filter
@@ -102,7 +101,7 @@ class AcademicController extends Controller
             $query->where('jenis', $request->jenis);
         }
 
-        $programs = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
+        $programs = $query->orderBy('created_at', 'desc')->get();
 
         // Calculate statistics
         $stats = [
@@ -118,6 +117,7 @@ class AcademicController extends Controller
     public function createProgram()
     {
         $gurus = User::where('role', 'guru')->where('status_aktif', true)->get();
+
         return view('admin.programs.create', compact('gurus'));
     }
 
@@ -161,10 +161,12 @@ class AcademicController extends Controller
             }
 
             DB::commit();
+
             return redirect()->route('admin.programs.index')->with('success', 'Program berhasil ditambahkan');
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->withInput()->with('error', 'Gagal menambahkan program: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal menambahkan program: '.$e->getMessage());
         }
     }
 
@@ -175,7 +177,7 @@ class AcademicController extends Controller
         // Calculate program statistics
         $stats = [
             'total_students' => $program->studentPrograms->count(),
-            'active_students' => $program->studentPrograms()->whereHas('student', function($q) {
+            'active_students' => $program->studentPrograms()->whereHas('student', function ($q) {
                 $q->where('status_aktif', true);
             })->count(),
             'total_targets' => $program->juzTargets->count(),
@@ -234,10 +236,12 @@ class AcademicController extends Controller
             }
 
             DB::commit();
+
             return redirect()->route('admin.programs.index')->with('success', 'Program berhasil diupdate');
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->withInput()->with('error', 'Gagal mengupdate program: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal mengupdate program: '.$e->getMessage());
         }
     }
 
@@ -245,7 +249,7 @@ class AcademicController extends Controller
     {
         try {
             // Check if program has active students
-            $activeStudents = $program->studentPrograms()->whereHas('student', function($q) {
+            $activeStudents = $program->studentPrograms()->whereHas('student', function ($q) {
                 $q->where('status_aktif', true);
             })->count();
 
@@ -254,9 +258,10 @@ class AcademicController extends Controller
             }
 
             $program->delete();
+
             return redirect()->route('admin.programs.index')->with('success', 'Program berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menghapus program: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menghapus program: '.$e->getMessage());
         }
     }
 
@@ -265,9 +270,10 @@ class AcademicController extends Controller
         try {
             $program = Program::withTrashed()->findOrFail($id);
             $program->restore();
+
             return redirect()->route('admin.programs.index')->with('success', 'Program berhasil dipulihkan');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal memulihkan program: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memulihkan program: '.$e->getMessage());
         }
     }
 
@@ -294,7 +300,7 @@ class AcademicController extends Controller
 
             return response()->json(['success' => 'Siswa berhasil ditambahkan ke program']);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Gagal menambahkan siswa: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Gagal menambahkan siswa: '.$e->getMessage()], 500);
         }
     }
 
@@ -307,7 +313,7 @@ class AcademicController extends Controller
 
             return response()->json(['success' => 'Siswa berhasil dihapus dari program']);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Gagal menghapus siswa: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Gagal menghapus siswa: '.$e->getMessage()], 500);
         }
     }
 }
